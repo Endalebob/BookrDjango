@@ -1,34 +1,31 @@
 from django.contrib import admin
 from reviews.models import (Publisher, Contributor, Book,
-        BookContributor, Review)
+                            BookContributor, Review)
 
 
 class BookAdmin(admin.ModelAdmin):
+    date_hierarchy = 'publication_date'
     list_display = ('title', 'isbn13')
-    list_filter = ('publisher',)
+    search_help_text = 'enter title or isbn'
+    search_fields = ('title', 'isbn')
+    list_filter = ('publisher', 'publication_date')
 
     def isbn13(self, obj):
         """ '9780316769174' => '978-0-31-676917-4' """
         return "{}-{}-{}-{}-{}".format(obj.isbn[0:3], obj.isbn[3:4],
-                                       obj.isbn[4:6], obj.isbn[6:12],
-                                       obj.isbn[12:13])
+                                       obj.isbn[4:6], obj.isbn[6:11],
+                                       obj.isbn[11:13])
 
-
-def initialled_name(obj):
-    """ obj.first_names='Jerome David', obj.last_names='Salinger'
-        => 'Salinger, JD' """
-    initials = ''.join([name[0] for name in obj.first_names.split(' ')])
-    return "{}, {}".format(obj.last_names, initials)
 
 class ContributorAdmin(admin.ModelAdmin):
-    list_display = (initialled_name,)
-
-
+    list_filter = ('last_names',)
+    list_display = ('first_names', 'last_names')
+    search_fields = ('last_names',)
 
 
 # Register your models here.
 admin.site.register(Publisher)
-admin.site.register(Contributor)
+admin.site.register(Contributor, ContributorAdmin)
 admin.site.register(Book, BookAdmin)
 admin.site.register(BookContributor)
 admin.site.register(Review)

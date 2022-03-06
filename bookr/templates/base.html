@@ -7,21 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-      <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+      <link href="{% static 'reviews/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'reviews/main.css' %}">
+
     <title>Book Review</title>
-    <style type="text/css">
-      .navbar {
-        min-height: 100px;
-        font-size: 25px;
-      }
-      .navbar-brand {
-        font-size: 25px;
-      }
-    </style>
   </head>
   <body>
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-          <a class="navbar-brand" href="/">Book Review</a>
+          <a class="navbar-brand" href="/">{% block brand %}<img src="{% static 'reviews/logo.png' %}">{% endblock %}</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -34,8 +28,8 @@
                 <a class="nav-link" href="#">Logout</a>
               </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <form action="{% url 'book_search' %}" class="form-inline my-2 my-lg-0">
+             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ search_text }}" minlength="3">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
           </div>
